@@ -25,9 +25,9 @@ class BoxSelectionActivity : BaseActivity() {
     private var boxIndex by Delegates.notNull<Int>()
     private var alreadyDone = false
 
-    private lateinit var timer: CountDownTimer
+   /* private lateinit var timer: CountDownTimer*/
 
-    // private var timerHandler: TimerHandler? = null
+   private var timerHandler: TimerHandler? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,19 +37,19 @@ class BoxSelectionActivity : BaseActivity() {
                 throw IllegalArgumentException("Can't launch BoxSelectionActivity without options")
         boxIndex = savedInstanceState?.getInt(KEY_INDEX) ?: Random.nextInt(options.boxCount)
 
-        if (options.isTimerEnabled){
+        /*if (options.isTimerEnabled){
             timerStartTimestamp = savedInstanceState?.getLong(KEY_START_TIMESTAMP)
                 ?: System.currentTimeMillis()
             setupTimer()
             updateTimerUi()
-        }
+        }*/
 
-        /* timerHandler = if (options.isTimerEnabled) {
+         timerHandler = if (options.isTimerEnabled) {
              TimerHandler()
          } else {
              null
          }
-         timerHandler?.onCreate(savedInstanceState)*/
+         timerHandler?.onCreate(savedInstanceState)
 
         createBoxes()
     }
@@ -57,26 +57,26 @@ class BoxSelectionActivity : BaseActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(KEY_INDEX, boxIndex)
-        if (options.isTimerEnabled){
+        /*if (options.isTimerEnabled){
             outState.putLong(KEY_START_TIMESTAMP,timerStartTimestamp)
-        }
-        //timerHandler?.onSaveInstanceState(outState)
+        }*/
+        timerHandler?.onSaveInstanceState(outState)
     }
 
     override fun onStart() {
         super.onStart()
-        if (options.isTimerEnabled){
+        /*if (options.isTimerEnabled){
             timer.start()
-        }
-        //timerHandler?.onStart()
+        }*/
+        timerHandler?.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        if (options.isTimerEnabled){
+       /* if (options.isTimerEnabled){
             timer.cancel()
-        }
-        // timerHandler?.onStop()
+        }*/
+         timerHandler?.onStop()
     }
 
     private fun createBoxes() {
@@ -103,7 +103,7 @@ class BoxSelectionActivity : BaseActivity() {
         }
     }
 
-    private fun setupTimer(){
+   /* private fun setupTimer(){
         timer = object : CountDownTimer(getRemainingSeconds()*1000,1000){
             override fun onFinish() {
                 updateTimerUi()
@@ -114,7 +114,7 @@ class BoxSelectionActivity : BaseActivity() {
                 updateTimerUi()
             }
         }
-    }
+    }*/
 
     private fun updateTimerUi() {
         if (getRemainingSeconds() >= 0) {
@@ -140,7 +140,7 @@ class BoxSelectionActivity : BaseActivity() {
         return max(0, (finishedAt - System.currentTimeMillis()) / 1000)
     }
 
-    /* inner class TimerHandler {
+     inner class TimerHandler {
 
          private lateinit var timer: CountDownTimer
 
@@ -179,7 +179,7 @@ class BoxSelectionActivity : BaseActivity() {
              timer.cancel()
          }
 
-     }*/
+     }
 
     companion object {
         const val EXTRA_OPTIONS = "EXTRA_OPTIONS"
